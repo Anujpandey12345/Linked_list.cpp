@@ -10,6 +10,16 @@ public:
         this -> data = data;
         this -> next = NULL;
     }
+    //Destructor
+    ~Node(){
+        int value = this->data;
+        //Memory Free
+        if(this->next != NULL){
+            delete next;
+            this->next = NULL;
+        }
+        cout<<"Memory is Free :: "<<value<<endl;
+    }
 };
 
 void InsertAtBegining(Node* &head, int d){
@@ -43,6 +53,29 @@ void InsertAtPosition(Node* &tail, Node* &head, int position , int d){
     NodetoInsert -> next = temp -> next;
     temp -> next = NodetoInsert;
 }
+void DeleteNode(int position, Node* &head){
+    //Deleting First node
+     if(position == 1){
+        Node* temp = head;
+        head = head -> next;
+        //Free memory
+        temp -> next = NULL;
+        delete temp;
+        //Deleting any middle Node
+     }else{
+        Node* curr = head;
+        Node* prev = NULL;
+        int cnt = 1;
+        if(cnt < position){
+            prev = curr;
+            curr = curr -> next;
+            cnt++;
+        }
+        prev -> next = curr -> next;
+        curr -> next = NULL;
+        delete curr;
+     }
+}
 
 void print(Node* &head){
     Node* temp = head;
@@ -70,4 +103,12 @@ int main(){
     print(head);
     cout<<"This is head ::"<< head -> data<<" "<<endl;
     cout<<"This is tail ::"<< tail -> data<<" "<<endl;
+    DeleteNode(1, head);
+    print(head);
+    DeleteNode(3, head);
+    print(head);
+    DeleteNode(4, head);
+    print(head);
+    DeleteNode(1, head);
+    print(head);
 }
